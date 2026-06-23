@@ -1,0 +1,137 @@
+:root {
+    --bg-main: #F4F7F9; 
+    --bg-gradient: linear-gradient(135deg, #F4F7F9 0%, #E6EEF6 100%);
+    
+    --bg-surface: #FFFFFF;
+    --sidebar-bg: rgba(255, 255, 255, 0.95);
+    
+    --text-main: #1E293B;
+    --text-muted: #64748B;
+    
+    --primary: #2563EB;
+    --primary-hover: #1D4ED8;
+    --primary-gradient: linear-gradient(135deg, #4286F4 0%, #2563EB 100%);
+    
+    --border-color: #E2E8F0;
+    --card-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.08), 0 8px 10px -6px rgba(37, 99, 235, 0.04);
+}
+
+[data-theme="dark"] {
+    --bg-main: #0F172A;
+    --bg-surface: #1E293B;
+    --sidebar-bg: #1E293B;
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --border-color: #334155;
+    --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+}
+
+body, html {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column; /* Stacks header and content on mobile */
+}
+
+/* Fluid Typography */
+.responsive-heading { font-size: clamp(1.5rem, 4vw, 2rem); }
+h1, h2, h3, h4, h5 { color: var(--text-main); }
+.text-muted { color: var(--text-muted) !important; }
+
+/* Components */
+.card { background-color: var(--bg-surface); border-radius: 16px; box-shadow: var(--card-shadow); transition: background-color 0.3s; }
+.form-control, .form-select { border-radius: 8px; border-color: var(--border-color); background-color: var(--bg-surface); color: var(--text-main); }
+.form-control:focus, .form-select:focus { box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2); border-color: var(--primary); }
+.btn { border-radius: 8px; font-weight: 500; transition: all 0.2s; }
+.btn-primary { background-color: var(--primary); border-color: var(--primary); }
+.btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+
+/* Table styling */
+.table { color: var(--text-main); }
+.table-light { background-color: var(--bg-main); color: var(--text-main); }
+.table-hover tbody tr:hover { background-color: rgba(14, 165, 233, 0.05); }
+.table td, .table th { border-color: var(--border-color); background-color: var(--bg-surface); }
+
+/* --- Responsive Layout & Sidebar --- */
+.mobile-header {
+    background-color: var(--bg-surface);
+}
+
+.sidebar {
+    width: 280px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: -280px; /* Hidden by default on mobile */
+    height: 100vh;
+    z-index: 1050;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.open {
+    left: 0 !important;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1); /* Adds a shadow to separate it from content */
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 1040;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-overlay.show {
+    opacity: 1 !important;
+    pointer-events: all !important;
+}
+
+.nav-link { color: var(--text-muted); border-radius: 8px; margin-bottom: 4px; padding: 12px 16px; transition: all 0.2s; }
+.nav-link:hover { background-color: rgba(14, 165, 233, 0.05); color: var(--primary); }
+.nav-link.active { background-color: var(--primary); color: white; }
+
+/* Main Content constraints for large screens */
+.main-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+    width: 100%;
+}
+
+.main-content { 
+    max-width: 1400px; /* Prevents ultra-wide stretching */
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Desktop overrides */
+@media (min-width: 992px) {
+    body { flex-direction: row; }
+    .sidebar { position: relative; left: 0; }
+    .mobile-header { display: none !important; }
+}
+
+/* Animations */
+.view-section { animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Status Badges */
+.status-upcoming { background-color: rgba(14, 165, 233, 0.1); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+.status-completed { background-color: rgba(16, 185, 129, 0.1); color: #10B981; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+
+/* Global Loader */
+.global-loader { position: fixed; inset: 0; background: var(--bg-main); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
+.toast-success { background-color: #10B981; color: white; }
+.toast-error { background-color: #EF4444; color: white; }
